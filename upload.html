@@ -6,6 +6,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <!-- polyfill.io only loads the polyfills your browser needs -->
     <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=es6,Intl"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
     <!-- Alternatively, use polyfill hosted on the Box CDN
  <script src="https://cdn01.boxcdn.net/polyfills/core-js/2.5.3/core.min.js"></script>
  -->
@@ -20,8 +22,8 @@
         var folderId = '';
         var accessToken = '';
         var urlParams = new URLSearchParams(window.location.search);
-        accessToken=urlParams.get('accessToken');
-        folderId=urlParams.get('folderId');
+        accessToken = urlParams.get('accessToken');
+        folderId = urlParams.get('folderId');
         $("#inputToken").val(accessToken);
         $("#inputFolderId").val(folderId);
         $(document).ready(function () {
@@ -212,7 +214,26 @@
 
         </article>
         <article id="submissionform">
-            <form id="rendered-form"><div class="rendered-form"><div class="fb-text form-group field-firstname"><label for="firstname" class="fb-text-label">Firstname<span class="tooltip-element" tooltip="Please provide you first name">?</span></label><input type="text" class="form-control" name="firstname" id="firstname" title="Please provide you first name"></div><div class="fb-text form-group field-lastname"><label for="lastname" class="fb-text-label">Lastname<span class="tooltip-element" tooltip="Please provide you first name">?</span></label><input type="text" class="form-control" name="lastname" id="lastname" title="Please provide you first name"></div><div class="fb-textarea form-group field-address"><label for="address" class="fb-textarea-label">Address<span class="tooltip-element" tooltip="This is the address where we can reach you">?</span></label><textarea type="textarea" class="form-control" name="address" rows="5" id="address" title="This is the address where we can reach you"></textarea></div><div class="fb-text form-group field-telephone"><label for="telephone" class="fb-text-label">Telephone Number<span class="tooltip-element" tooltip="The telephone number where you can be reached">?</span></label><input type="tel" class="form-control" name="telephone" id="telephone" title="The telephone number where you can be reached"></div><div class="fb-text form-group field-ccnumber"><label for="ccnumber" class="fb-text-label">C&amp;C Number<span class="fb-required">*</span><span class="tooltip-element" tooltip="This is the number you have been given">?</span></label><input type="text" class="form-control" name="ccnumber" maxlength="10" id="ccnumber" title="This is the number you have been given" required="required" aria-required="true"></div></div></form>
+            <form id="rendered-form">
+                <div class="rendered-form">
+                    <div class="fb-text form-group field-firstname"><label for="firstname" class="fb-text-label">Firstname<span
+                                class="tooltip-element" tooltip="Please provide you first name">?</span></label><input
+                            type="text" class="form-control" name="firstname" id="firstname" title="Please provide you first name"></div>
+                    <div class="fb-text form-group field-lastname"><label for="lastname" class="fb-text-label">Lastname<span
+                                class="tooltip-element" tooltip="Please provide you first name">?</span></label><input
+                            type="text" class="form-control" name="lastname" id="lastname" title="Please provide you first name"></div>
+                    <div class="fb-textarea form-group field-address"><label for="address" class="fb-textarea-label">Address<span
+                                class="tooltip-element" tooltip="This is the address where we can reach you">?</span></label><textarea
+                            type="textarea" class="form-control" name="address" rows="5" id="address" title="This is the address where we can reach you"></textarea></div>
+                    <div class="fb-text form-group field-telephone"><label for="telephone" class="fb-text-label">Telephone
+                            Number<span class="tooltip-element" tooltip="The telephone number where you can be reached">?</span></label><input
+                            type="tel" class="form-control" name="telephone" id="telephone" title="The telephone number where you can be reached"></div>
+                    <div class="fb-text form-group field-ccnumber"><label for="ccnumber" class="fb-text-label">C&amp;C
+                            Number<span class="fb-required">*</span><span class="tooltip-element" tooltip="This is the number you have been given">?</span></label><input
+                            type="text" class="form-control" name="ccnumber" maxlength="10" id="ccnumber" title="This is the number you have been given"
+                            required="required" aria-required="true"></div>
+                </div>
+            </form>
         </article>
     </section>
 
