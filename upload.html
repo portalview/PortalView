@@ -35,7 +35,7 @@
                     "url": "https://api.box.com/2.0/folders",
                     "method": "POST",
                     "headers": {
-                        "Authorization": "Bearer r3BrAsPkWIyLX6UOfwQO66mHhrdsyrw1"
+                        "Authorization": "Bearer rxibhVdoycEjfrSiFIiCkS5qRVZZeT80"
                     },
                     "data": "{\"name\":\"" + $("#ccnumber_input").val() + "\", \"parent\": {\"id\": \"62907309318\"}}"
                 }
@@ -169,19 +169,20 @@
                 <div class="form-group">
                     <label for="ccnumber" class="col-sm-3 col-form-label col-form-label-sm">C&C Number</label>
                     <input type="text" class="form-control form-control-sm" id="ccnumber_input" placeholder="C&C Number"
-                        aria-describedby="ccnumberHelpBlock">
+                        aria-describedby="ccnumberHelpBlock" required>
                     <small id="ccnumberHelpBlock" class="form-text text-muted">
                         Please provide the C&C Number that was provided to you.
                     </small>
                 </div>
-                <button id="submitbutton" type="button" class="btn btn-outline-secondary">Secondary</button>
+                <button id="submitbutton" type="button" class="btn btn-outline-secondary" >Create Case</button>
+            </form>
         </nav>
 
 
 
 
         <article id="uploader">
-<!--             <div class="uploader-container" style="height:100%; width:100%;"></div>
+            <!--             <div class="uploader-container" style="height:100%; width:100%;"></div>
 
             <script src="https://cdn01.boxcdn.net/platform/elements/7.2.0/en-US/uploader.js"></script>
             <script>
