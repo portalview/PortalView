@@ -6,73 +6,51 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <!-- polyfill.io only loads the polyfills your browser needs -->
     <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=es6,Intl"></script>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-
-    <!-- Alternatively, use polyfill hosted on the Box CDN
- <script src="https://cdn01.boxcdn.net/polyfills/core-js/2.5.3/core.min.js"></script>
- -->
+    <script src="https://cdn01.boxcdn.net/platform/elements/7.2.0/en-US/uploader.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+        crossorigin="anonymous">
 
     <!-- Latest version of the explorer css for your locale -->
     <!-- <link rel="stylesheet" href="https://cdn01.boxcdn.net/platform/elements/7.2.0/en-US/explorer.css" /> -->
     <link rel="stylesheet" href="https://cdn01.boxcdn.net/platform/elements/8.6.0/en-US/explorer.css" />
     <link rel="stylesheet" href="https://cdn01.boxcdn.net/platform/elements/7.2.0/en-US/uploader.css" />
-    <script src="https://cdn01.boxcdn.net/platform/preview/1.58.3/en-US/preview.js"></script>
     <link rel="stylesheet" href="https://cdn01.boxcdn.net/platform/preview/1.58.3/en-US/preview.css" />
     <script>
+        var ccnumber = '';
         var folderId = '';
-        var accessToken = '';
         var urlParams = new URLSearchParams(window.location.search);
+        var uploader = new Box.ContentUploader();
         accessToken = urlParams.get('accessToken');
         folderId = urlParams.get('folderId');
         $("#inputToken").val(accessToken);
         $("#inputFolderId").val(folderId);
         $(document).ready(function () {
 
-            $("#inputToken")
-                .keyup(function () {
-                    var value = $(this).val();
-                    accessToken = value;
+            $("#uploader").show();
 
-                })
-                .keyup();
+            $("#submitbutton").click(function () {
+                var settings = {
+                    "async": true,
+                    "crossDomain": true,
+                    "url": "https://api.box.com/2.0/folders",
+                    "method": "POST",
+                    "headers": {
+                        "Authorization": "Bearer r3BrAsPkWIyLX6UOfwQO66mHhrdsyrw1"
+                    },
+                    "data": "{\"name\":\"" + $("#ccnumber_input").val() + "\", \"parent\": {\"id\": \"62907309318\"}}"
+                }
 
-            $("#inputFolderId")
-                .keyup(function () {
-                    var value = $(this).val();
-                    folderId = value;
+                $.ajax(settings).done(function (response) {
+                    console.log(response);
+                    folderId = response.id;
+                    $("#uploader").show();
+                    $('#uploader').load('uploadcontrol.html');
+                });
 
-                })
-                .keyup();
-
-            $("#contentExplorer").show();
-            $("#uploader").hide();
-            $("#preview").hide();
-
-
-            $("#cexlink").click(function () {
-                $("#contentExplorer").show();
-                $("#uploader").hide();
-                $("#preview").hide();
-            });
-
-
-            $("#uploadlink").click(function () {
-                $("#contentExplorer").hide();
-                $("#uploader").show();
-                $("#preview").hide();
-            });
-
-
-            $("#previewlink").click(function () {
-                $("#contentExplorer").hide();
-                $("#uploader").hide();
-                $("#preview").show();
             });
 
             $("#previewlink").click(function () {
-                $("#submissionform").show();
-                $("#uploader").hide();
-                $("#preview").hide();
+
             });
 
 
@@ -103,12 +81,13 @@
         /* Create two columns/boxes that floats next to each other */
         nav {
             float:left;
-            width: 15vw;
+            width: 40vw;
             height: 80vh;
             /*only for demonstration, should be removed */
-            width: 10vw;
-            background: rgb(110, 104, 104);
-            padding: 0px;
+
+            background: rgb(255, 255, 255);
+            padding: 20px;
+
         }
 
         /* Style the list inside the menu */
@@ -119,10 +98,11 @@
 
         article {
             float: left;
-            padding: 0px;
-            width: 85vw;
-            background-color: rgb(51, 7, 248);
+            padding: 20px;
+            width: 60vw;
+            background-color: rgb(255, 255, 255);
             height: 80vh;
+
             /* only for demonstration, should be removed */
         }
 
@@ -156,85 +136,65 @@
 <body>
 
     <header>
-        <h2>Box UI Elements</h2>
-        Token: <input type="text" name="inputToken" id="inputToken"><br>
-        Folder Id: <input type="text" name="inputFolderId" id="inputFolderId"><br>
+        <h2>Portal View Upload</h2>
     </header>
 
     <section>
         <nav>
-            <ul>
-                <li><a id="cexlink" href="#">Content Explorer</a></li>
-                <li><a id="uploadlink" href="#">Uploader</a></li>
-                <li><a id="previewlink" href="#">Preview</a></li>
-                <li><a id="submissionformlink" href="#">Submission Form</a></li>
-            </ul>
+            <form>
+                <div class="form-group">
+                    <label for="firstname" class="col-sm-2 col-form-label col-form-label-sm">Firstname</label>
+                    <input type="text" class="form-control form-control-sm" id="firstname_input" placeholder="Firstname"
+                        aria-describedby="firstnameHelpBlock">
+                    <small id="firstnameHelpBlock" class="form-text text-muted">
+                        Please provide your first name.
+                    </small>
+                </div>
+                <div class="form-group"></div>
+                <label for="lasttname" class="col-sm-2  col-form-label-sm">Lastname</label>
+                <input type="text" class="form-control form-control-sm" id="lastname_input" placeholder="Lastname"
+                    aria-describedby="lastnameHelpBlock">
+                <small id="lastnameHelpBlock" class="form-text text-muted">
+                    Please provide your last name.
+                </small>
+                </div>
+                <div class="form-group">
+                    <label for="address" class="col-sm-2 col-form-label col-form-label-sm">Address</label>
+                    <textarea type="text" class="form-control form-control-sm" id="address_textarea" placeholder="Address"
+                        aria-describedby="addressHelpBlock" rows="4"></textarea>
+                    <small id="addressHelpBlock" class="form-text text-muted">
+                        This is the address where you normally reside.
+                    </small>
+                </div>
+                <div class="form-group">
+                    <label for="ccnumber" class="col-sm-3 col-form-label col-form-label-sm">C&C Number</label>
+                    <input type="text" class="form-control form-control-sm" id="ccnumber_input" placeholder="C&C Number"
+                        aria-describedby="ccnumberHelpBlock">
+                    <small id="ccnumberHelpBlock" class="form-text text-muted">
+                        Please provide the C&C Number that was provided to you.
+                    </small>
+                </div>
+                <button id="submitbutton" type="button" class="btn btn-outline-secondary">Secondary</button>
         </nav>
 
-        <article id="contentExplorer">
-            <div class="container" style="height:100%;width:100%"></div>
-            <!-- Latest version of the explorer js for your locale -->
-            <!-- <script src="https://cdn01.boxcdn.net/platform/elements/7.2.0/en-US/explorer.js"></script> -->
 
-            <script src="https://cdn01.boxcdn.net/platform/elements/8.6.0/en-US/explorer.js"></script> -->
-            <script>
-                //var folderId = '123';
-                //var accessToken = 'abc';
 
-                var contentExplorer = new Box.ContentExplorer();
-                contentExplorer.show('47692626908', 'BJbKMUSmbBEHHVTtAQZ859OoWlXkNmZE', {
-                    container: '.container'
-                });
-            </script>
 
-        </article>
         <article id="uploader">
-            <div class="uploader-container" style="height:100%; width:100%;"></div>
-            <!-- Latest version of the uploader js for your locale -->
+<!--             <div class="uploader-container" style="height:100%; width:100%;"></div>
+
             <script src="https://cdn01.boxcdn.net/platform/elements/7.2.0/en-US/uploader.js"></script>
             <script>
-                //var folderId = '123';
-                //var accessToken = 'abc';
                 var uploader = new Box.ContentUploader();
-                uploader.show(folderId, accessToken, {
+                alert(folderId);
+                uploader.show(folderId, "jOzg0R6jLZzGI5Gf9RjREMDHZEXJmV22", {
                     container: '.uploader-container'
                 });
-            </script>
+            </script> -->
 
         </article>
-        <article id="preview">
-            <div class="preview-container" style="height:100%; width:100%;"></div>
-            <script>
-                var preview = new Box.Preview();
-                preview.show('284350835592', 'xRhIdWDBTAaR9Fif8PKjhfGCPFVk3NZZ', {
-                    container: '.preview-container',
-                    showDownload: true
-                });
-            </script>
 
-        </article>
-        <article id="submissionform">
-            <form id="rendered-form">
-                <div class="rendered-form">
-                    <div class="fb-text form-group field-firstname"><label for="firstname" class="fb-text-label">Firstname<span
-                                class="tooltip-element" tooltip="Please provide you first name">?</span></label><input
-                            type="text" class="form-control" name="firstname" id="firstname" title="Please provide you first name"></div>
-                    <div class="fb-text form-group field-lastname"><label for="lastname" class="fb-text-label">Lastname<span
-                                class="tooltip-element" tooltip="Please provide you first name">?</span></label><input
-                            type="text" class="form-control" name="lastname" id="lastname" title="Please provide you first name"></div>
-                    <div class="fb-textarea form-group field-address"><label for="address" class="fb-textarea-label">Address<span
-                                class="tooltip-element" tooltip="This is the address where we can reach you">?</span></label><textarea
-                            type="textarea" class="form-control" name="address" rows="5" id="address" title="This is the address where we can reach you"></textarea></div>
-                    <div class="fb-text form-group field-telephone"><label for="telephone" class="fb-text-label">Telephone
-                            Number<span class="tooltip-element" tooltip="The telephone number where you can be reached">?</span></label><input
-                            type="tel" class="form-control" name="telephone" id="telephone" title="The telephone number where you can be reached"></div>
-                    <div class="fb-text form-group field-ccnumber"><label for="ccnumber" class="fb-text-label">C&amp;C
-                            Number<span class="fb-required">*</span><span class="tooltip-element" tooltip="This is the number you have been given">?</span></label><input
-                            type="text" class="form-control" name="ccnumber" maxlength="10" id="ccnumber" title="This is the number you have been given"
-                            required="required" aria-required="true"></div>
-                </div>
-            </form>
-        </article>
+
     </section>
 
     <footer>
