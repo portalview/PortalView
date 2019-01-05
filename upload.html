@@ -77,24 +77,7 @@
                         $('#modalMessage').text("Please upload your files...");
                         setTimeout(function () { $('#myModal').modal('toggle'); }, 3000);
                     }
-                    //Set metadata cascade policy
-                    var settingsMetadataCascade = {
-                        "async": true,
-                        "crossDomain": true,
-                        "url": "https://api.box.com/2.0/metadata_cascade_policies",
-                        "method": "POST",
-                        "headers": {
-                            "Authorization": "Bearer " + accessToken,
-                            "Content-Type": "application/json"
-                        },
-                        "processData": false,
-                        "data": "{\n        \"folder_id\" : \"" + folderId + "\",\n        \"scope\": \"enterprise_39176179\",\n        \"templateKey\" : \"portalviewMetadata\"\n}"
-                    }
 
-                    $.ajax(settingsMetadataCascade).done(function (response) {
-                        console.log(response);
-                        alert("Cascade");
-                    });
                 });
 
 
