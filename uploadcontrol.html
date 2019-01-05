@@ -20,6 +20,10 @@
         });
 
         uploader.on('upload', (data) => {
+            var text = $('#address_textarea').val(); 
+        text = text.replace(/\n/g,' ');
+        alert(text);
+
 
             var settingsMetadataSet = {
                 "async": true,
@@ -30,8 +34,7 @@
                     "Authorization": "Bearer " + accessToken,
                     "Content-Type": "application/json"
                 },
-                "processData": false,
-                "data": "{\n  \"ccNumber\": \""+ $("#ccnumber_input").val() + "\",\n  \"firstname\": \"" + $("#firstname_input").val() + "\",\n  \"lastname\": \"" + $("#lastname_input").val() + "\",\n  \"address\": \"" + $("#address_textarea").val() + "\"\n}"
+                "data": "{\n  \"ccNumber\": \""+ $("#ccnumber_input").val() + "\",\n  \"firstname\": \"" + $("#firstname_input").val() + "\",\n  \"lastname\": \"" + $("#lastname_input").val() + "\",\n  \"address\": \"" + text + "\"\n}"
             }
 
             $.ajax(settingsMetadataSet).done(function (response) {
