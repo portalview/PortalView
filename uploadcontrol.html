@@ -1,18 +1,51 @@
-
-
 <html>
-<head>    
+
+<head>
 </head>
+
 <body>
     <div class="uploader-container" style="height:100%; width:100%;"></div>
     <!-- Latest version of the uploader js for your locale -->
     <script src="https://cdn01.boxcdn.net/platform/elements/7.2.0/en-US/uploader.js"></script>
     <script>
         var uploader = new Box.ContentUploader();
+        // Attach event listener for when the close button is pressed
+        uploader.addListener('complete', function () {
+            uploader.hide();
+            $("#submissionform :input").prop("disabled", false);
+        });
 
-        uploader.show(folderId, "rxibhVdoycEjfrSiFIiCkS5qRVZZeT80", {
+        uploader.addListener('close', function () {
+            uploader.hide();
+        });
+
+        uploader.on('upload', (data) => {
+
+            var settingsMetadataSet = {
+                "async": true,
+                "crossDomain": true,
+                "url": "https://api.box.com/2.0/files/" + data.id + "/metadata/enterprise_39176179/portalviewMetadata",
+                "method": "POST",
+                "headers": {
+                    "Authorization": "Bearer " + accessToken,
+                    "Content-Type": "application/json"
+                },
+                "processData": false,
+                "data": "{\n  \"ccNumber\": \""+ $("#ccnumber_input").val() + "\",\n  \"firstname\": \"" + $("#firstname_input").val() + "\",\n  \"lastname\": \"" + $("#lastname_input").val() + "\",\n  \"address\": \"" + $("#address_textarea").val() + "\"\n}"
+            }
+
+            $.ajax(settingsMetadataSet).done(function (response) {
+                console.log(response);
+            });
+            console.log(`Successfully uploaded file with name "${data.name}" to Box File ID ${data.id}`);
+        });
+
+
+
+        uploader.show(folderId, accessToken, {
             container: '.uploader-container'
         });
     </script>
 </body>
+
 </html>
