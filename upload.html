@@ -29,7 +29,9 @@
         accessToken = urlParams.get('accessToken');
 
         $(document).ready(function () {
-
+            $('[data-toggle="popover"]').popover({
+                container: 'body'
+            });
             $("#uploader").show();
 
             $("#submitbutton").click(function () {
@@ -93,6 +95,27 @@
 
         });
     </script>
+    <script>
+        // Example starter JavaScript for disabling form submissions if there are invalid fields
+        (function () {
+            'use strict';
+            window.addEventListener('load', function () {
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                var forms = document.getElementsByClassName('needs-validation');
+                // Loop over them and prevent submission
+                var validation = Array.prototype.filter.call(forms, function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (form.checkValidity() === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            }, false);
+        })();
+
+    </script>
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -113,13 +136,14 @@
             font-family: Arial, Helvetica, sans-serif;
             font-size: 1.125rem;
             color: white;
+            height: 5vh;
         }
 
         /* Create two columns/boxes that floats next to each other */
         nav {
             float:left;
             width: 40vw;
-            height: 80vh;
+            height: 85vh;
             /*only for demonstration, should be removed */
 
             background: rgb(255, 255, 255);
@@ -138,7 +162,7 @@
             padding: 20px;
             width: 60vw;
             background-color: rgb(255, 255, 255);
-            height: 80vh;
+            height: 85vh;
 
             /* only for demonstration, should be removed */
         }
@@ -156,6 +180,7 @@
             padding: 1px;
             text-align: center;
             color: white;
+            height: 5vh;
         }
 
         /* Responsive layout - makes the two columns/boxes stack on top of each other instead of next to each other, on small screens */
@@ -211,13 +236,14 @@
                         Please provide the C&C Number that was provided to you.
                     </small>
                 </div>
-                <button id="submitbutton" type="button" class="btn btn-outline-secondary">Create Case</button>
+  
+                <button id="submitbutton" type="button" class="btn btn-outline-primary">Create Case</button>
             </form>
 
 
             <!-- The Modal -->
             <div class="modal fade" id="myModal">
-                <div class="modal-dialog">
+                <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
 
                         <!-- Modal Header -->
@@ -230,8 +256,6 @@
                         <div class="modal-body" id="modalMessage">
                             Progress Status...
                         </div>
-
-
                     </div>
                 </div>
             </div>
@@ -260,7 +284,6 @@
     <footer>
         <p>Footer</p>
     </footer>
-
 </body>
 
 </html>
