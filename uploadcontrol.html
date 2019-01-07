@@ -13,6 +13,10 @@
         uploader.addListener('complete', function () {
             uploader.hide();
             $("#submissionform :input").prop("disabled", false);
+            $('#modalMessage').html("<p style='text-align: center;'><strong>&nbsp;</strong>Your upload upload is now complete.</p><p style='text-align: center;'>Please feel free to continue uploading additional files.</p>");
+            $('#myModal').modal('show');
+            setTimeout(function () { $('#myModal').modal('hide'); }, 2000);
+            $("#uploader").hide();
         });
 
         uploader.addListener('close', function () {
