@@ -43,7 +43,7 @@
             }
 
             $.ajax(settingsToken).done(function (response) {
-                accessToken=response.token;
+                accessToken = response.token;
                 console.log(response);
             });
 
@@ -53,60 +53,64 @@
             $("#uploader").show();
 
             $("#submitbutton").click(function () {
-                $("#submissionform :input").prop("disabled", true);
-                $('#modalMessage').text("Getting case Folder...");
-                $('#myModal').modal('show');
-                //See if the folder exists
-                var settingsFolderGet = {
-                    "async": true,
-                    "crossDomain": true,
-                    "url": "https://api.box.com/2.0/folders?parent_id=" + baseFolderId + "&path=" + $("#ccnumber_input").val(),
-                    "method": "GET",
-                    "headers": {
-                        "Authorization": "Bearer " + accessToken
-                    }
-                }
 
-                $.ajax(settingsFolderGet).done(function (response) {
-                    if (response.entries.length == 0) {
-                        var settings = {
-                            "async": true,
-                            "crossDomain": true,
-                            "url": "https://api.box.com/2.0/folders",
-                            "method": "POST",
-                            "headers": {
-                                "Authorization": "Bearer " + accessToken
-                            },
-                            "data": "{\"name\":\"" + $("#ccnumber_input").val() + "\", \"parent\": {\"id\": \"" + baseFolderId + "\"}}"
+                if (/(CC)([12]\d{3}(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01]))\d{5}/.test($("#ccnumber_input").val())) {
+                    alert(/(CC)([12]\d{3}(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01]))\d{5}/.test($("#ccnumber_input").val()))
+
+                    $("#submissionform :input").prop("disabled", true);
+                    $('#modalMessage').text("Getting case Folder...");
+                    $('#myModal').modal('show');
+                    //See if the folder exists
+                    var settingsFolderGet = {
+                        "async": true,
+                        "crossDomain": true,
+                        "url": "https://api.box.com/2.0/folders?parent_id=" + baseFolderId + "&path=" + $("#ccnumber_input").val(),
+                        "method": "GET",
+                        "headers": {
+                            "Authorization": "Bearer " + accessToken
                         }
+                    }
 
-                        $.ajax(settings).done(function (response) {
-                            console.log(response);
-                            folderId = response.id;
-                            $('#modalMessage').text("Case folder created:" + folderId);
+                    $.ajax(settingsFolderGet).done(function (response) {
+                        if (response.entries.length == 0) {
+                            var settings = {
+                                "async": true,
+                                "crossDomain": true,
+                                "url": "https://api.box.com/2.0/folders",
+                                "method": "POST",
+                                "headers": {
+                                    "Authorization": "Bearer " + accessToken
+                                },
+                                "data": "{\"name\":\"" + $("#ccnumber_input").val() + "\", \"parent\": {\"id\": \"" + baseFolderId + "\"}}"
+                            }
+
+                            $.ajax(settings).done(function (response) {
+                                console.log(response);
+                                folderId = response.id;
+                                $('#modalMessage').text("Case folder created:" + folderId);
+                                $("#uploader").show();
+                                $('#uploader').load('uploadcontrol.html');
+                                $('#modalMessage').text("Please upload your files...");
+                                setTimeout(function () { $('#myModal').modal('toggle'); }, 1200);
+                            });
+                        } else {
+                            folderId = response.entries[0].id;
+                            $('#modalMessage').text("Case folder found:" + folderId);
                             $("#uploader").show();
                             $('#uploader').load('uploadcontrol.html');
                             $('#modalMessage').text("Please upload your files...");
-                            setTimeout(function () { $('#myModal').modal('toggle'); }, 1200);
-                        });
-                    } else {
-                        folderId = response.entries[0].id;
-                        $('#modalMessage').text("Case folder found:" + folderId);
-                        $("#uploader").show();
-                        $('#uploader').load('uploadcontrol.html');
-                        $('#modalMessage').text("Please upload your files...");
-                        setTimeout(function () { $('#myModal').modal('toggle'); }, 3000);
-                    }
+                            setTimeout(function () { $('#myModal').modal('toggle'); }, 3000);
+                        }
 
-                });
+                    });
+                } else {
+                    $('#modalMessage').text("Invalid C&C Number. Please correct the number before proceeding.");
 
-
-
-
-            });
-
-            $("#previewlink").click(function () {
-
+                    setTimeout(function () { 
+                        $('#myModal').modal('toggle'); 
+                    }, 1500);
+                    
+                };
             });
 
 
@@ -271,14 +275,14 @@
                     <div class="modal-content">
 
                         <!-- Modal Header -->
-                        <div class="modal-header" style="background-color: rgb(184, 184, 184); padding: 0.25rem;">
+                        <div id='modalHeader' class="modal-header" style="background-color: rgb(184, 184, 184); padding: 0.25rem;">
                             <h4 class="modal-title">Progress</h4>
 
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                         </div>
 
                         <!-- Modal body -->
-                        <div class="modal-body" id="modalMessage">
+                        <div class="modal-body" id="modalMessage" style="text-align: center">
                             Progress Status...
                         </div>
                     </div>
