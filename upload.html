@@ -22,13 +22,30 @@
     <link rel="stylesheet" href="https://cdn01.boxcdn.net/platform/preview/1.58.3/en-US/preview.css" />
     <script>
         var ccnumber = '';
-        var folderId = '';
+        var folderId = '63483253821';
         var accessToken = '';
         var urlParams = new URLSearchParams(window.location.search);
         var uploader = new Box.ContentUploader();
         accessToken = urlParams.get('accessToken');
 
         $(document).ready(function () {
+
+            /*
+            Get Acces Token
+            */
+
+            var settingsToken = {
+                "async": true,
+                "crossDomain": true,
+                "url": "https://bl2vhdoqzh.execute-api.eu-west-2.amazonaws.com/default/box-jwt-tokengenerator?clientId=xhl9l3ihe5tfnwxa89hy2iol5jx2xttk&userId=6951861249&requestedTokens=userToken&requestedScopes=base-upload",
+                "method": "GET"
+            }
+
+            $.ajax(settingsToken).done(function (response) {
+                accessToken=response.token;
+                console.log(response);
+            });
+
             $('[data-toggle="popover"]').popover({
                 container: 'body'
             });
@@ -42,7 +59,7 @@
                 var settingsFolderGet = {
                     "async": true,
                     "crossDomain": true,
-                    "url": "https://api.box.com/2.0/folders?parent_id=62907309318&path=" + $("#ccnumber_input").val(),
+                    "url": "https://api.box.com/2.0/folders?parent_id=" + folderId + "&path=" + $("#ccnumber_input").val(),
                     "method": "GET",
                     "headers": {
                         "Authorization": "Bearer " + accessToken
@@ -59,7 +76,7 @@
                             "headers": {
                                 "Authorization": "Bearer " + accessToken
                             },
-                            "data": "{\"name\":\"" + $("#ccnumber_input").val() + "\", \"parent\": {\"id\": \"62907309318\"}}"
+                            "data": "{\"name\":\"" + $("#ccnumber_input").val() + "\", \"parent\": {\"id\": \"" + folderId + "\"}}"
                         }
 
                         $.ajax(settings).done(function (response) {
@@ -253,14 +270,15 @@
                     <div class="modal-content">
 
                         <!-- Modal Header -->
-                        <div class="modal-header" style="background-color: rgb(184, 184, 184); padding: 0.25rem;"><h4 class="modal-title" >Progress</h4>
-                                
+                        <div class="modal-header" style="background-color: rgb(184, 184, 184); padding: 0.25rem;">
+                            <h4 class="modal-title">Progress</h4>
+
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                         </div>
 
                         <!-- Modal body -->
                         <div class="modal-body" id="modalMessage">
-                                Progress Status...
+                            Progress Status...
                         </div>
                     </div>
                 </div>
