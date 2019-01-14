@@ -55,7 +55,7 @@
             $("#submitbutton").click(function () {
 
                 if (/(CC)([12]\d{3}(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01]))\d{5}/.test($("#ccnumber_input").val())) {
-                    alert(/(CC)([12]\d{3}(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01]))\d{5}/.test($("#ccnumber_input").val()))
+
 
                     $("#submissionform :input").prop("disabled", true);
                     $('#modalMessage').text("Getting case Folder...");
@@ -105,16 +105,10 @@
                     });
                 } else {
                     $('#modalMessage').text("Invalid C&C Number. Please correct the number before proceeding.");
+                    $('#myModal').modal('toggle');
 
-                    setTimeout(function () { 
-                        $('#myModal').modal('toggle'); 
-                    }, 1500);
-                    
                 };
             });
-
-
-
         });
     </script>
     <script>
