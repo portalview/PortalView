@@ -20,17 +20,23 @@
     <link rel="stylesheet" href="https://cdn01.boxcdn.net/platform/elements/8.6.0/en-US/explorer.css" />
     <link rel="stylesheet" href="https://cdn01.boxcdn.net/platform/elements/7.2.0/en-US/uploader.css" />
     <link rel="stylesheet" href="https://cdn01.boxcdn.net/platform/preview/1.58.3/en-US/preview.css" />
+
+
+
     <script>
         var ccnumber = '';
         var folderId = '';
         var baseFolderId = '63483253821';
         var accessToken = '';
+        var fileNamesNotUploaded = [];
+        var restrictedFileTypes= [".exe",".docx",".doc",".xls",".svg",".dmg"];
         var urlParams = new URLSearchParams(window.location.search);
         var uploader = new Box.ContentUploader();
+        var hostURL="";
         accessToken = urlParams.get('accessToken');
 
         $(document).ready(function () {
-
+            hostURL=window.location.protocol + "//" + window.location.host;
             /*
             Get Acces Token
             */
@@ -53,7 +59,7 @@
             $("#uploader").show();
 
             $("#submitbutton").click(function () {
-
+              
                 if (/(CC)([12]\d{3}(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01]))\d{5}/.test($("#ccnumber_input").val())) {
 
 
@@ -91,7 +97,7 @@
                                 $("#uploader").show();
                                 $('#uploader').load('uploadcontrol.html');
                                 $('#modalMessage').text("Please upload your files...");
-                                setTimeout(function () { $('#myModal').modal('toggle'); }, 1200);
+                                setTimeout(function () { $('#myModal').modal('toggle'); }, 1000);
                             });
                         } else {
                             folderId = response.entries[0].id;
@@ -99,7 +105,7 @@
                             $("#uploader").show();
                             $('#uploader').load('uploadcontrol.html');
                             $('#modalMessage').text("Please upload your files...");
-                            setTimeout(function () { $('#myModal').modal('toggle'); }, 3000);
+                            setTimeout(function () { $('#myModal').modal('toggle'); }, 1000);
                         }
 
                     });
@@ -270,13 +276,13 @@
 
                         <!-- Modal Header -->
                         <div id='modalHeader' class="modal-header" style="background-color: rgb(184, 184, 184); padding: 0.25rem;">
-                            <h4 class="modal-title">Progress</h4>
+                            <h4 class="modal-title" style="text-align: center; font-family: Lato,Helvetica Neue,Helvetica,Arial,sans-serif;font-size: 16px;">Progress</h4>
 
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                         </div>
 
                         <!-- Modal body -->
-                        <div class="modal-body" id="modalMessage" style="text-align: center">
+                        <div class="modal-body" id="modalMessage" style="text-align: center; font-family: Lato,Helvetica Neue,Helvetica,Arial,sans-serif;font-size: 13px;">
                             Progress Status...
                         </div>
                     </div>
@@ -288,16 +294,6 @@
 
 
         <article id="uploader">
-            <!--             <div class="uploader-container" style="height:100%; width:100%;"></div>
-
-            <script src="https://cdn01.boxcdn.net/platform/elements/7.2.0/en-US/uploader.js"></script>
-            <script>
-                var uploader = new Box.ContentUploader();
-                alert(folderId);
-                uploader.show(folderId, "jOzg0R6jLZzGI5Gf9RjREMDHZEXJmV22", {
-                    container: '.uploader-container'
-                });
-            </script> -->
 
         </article>
 
@@ -307,6 +303,8 @@
     <footer>
         <p>Footer</p>
     </footer>
+
+
 </body>
 
 </html>
